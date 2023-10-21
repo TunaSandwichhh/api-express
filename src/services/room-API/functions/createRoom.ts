@@ -19,7 +19,10 @@ export const createRoom = async (input: any) => {
 
     return {
       status: 200,
-      body: { message: "Room successfully created" },
+      body: {
+        message: "Room successfully created",
+        id: room.roomId,
+      },
     };
   } catch (error) {
     return {

@@ -1,12 +1,12 @@
 import { MongoClient, Document, Collection } from "mongodb";
 
 class MongoDbClient {
-  private readonly uri: string = "your_mongodb_uri";
-  private readonly dbName: string = "your_database_name";
-  private client: MongoClient;
+  private readonly uri: string =
+    "mongodb://root:examplepassword@localhost:27017/";
+  private readonly dbName: string = "Hotel_DB";
+  private client: MongoClient = new MongoClient(this.uri);
 
   async connectToDb(): Promise<void> {
-    this.client = new MongoClient(this.uri);
     await this.client.connect();
   }
 
