@@ -1,59 +1,59 @@
-import { MongoClient } from "mongodb";
-import { Room } from "../models/room";
-import { Booking } from "../models/booking";
+import { MongoClient, Document } from "mongodb";
+import { Collection } from "mongodb";
 
-const uri = "mongodb://localhost:27017"; // Replace with your MongoDB URI
+class MongoDbClient {
+  private readonly uri: string = "your_mongodb_uri";
+  private readonly dbName: string = "your_database_name";
+  private client: MongoClient;
 
-export const connectToDb = async () => {
-  const client = new MongoClient(uri);
-  await client.connect();
-  client.close();
-};
-
-export const retrieveRoom = async (roomId: string): Promise<Room | null> => {
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db("HotelDB");
-  const collection = db.collection("rooms");
-  const room = await collection.findOne({ roomId });
-  client.close();
-  if (!room) {
-    throw new Error("Room not found");
+  async connectToDb(): Promise<void> {
+    this.client = new MongoClient(this.uri);
+    await this.client.connect();
   }
-  return room;
-};
 
-export const retrieveBooking = async (
-  bookingId: string
-): Promise<Booking | null> => {
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db("HotelDB");
-  const collection = db.collection("bookings");
-  const booking = await collection.findOne({ bookingId });
-  client.close();
-  if (!booking) {
-    throw new Error("Booking not found");
+  async retrieveBookingsByRoomAndDate(
+    roomId: string,
+    date: Date
+  ): Promise<any[]> {
+    const db = this.client.db(this.dbName);
+    const bookingsCollection: Collection = db.collection("bookings");
+
+    const query = {
+      roomId: roomId,
+      date: date,
+    };
+
+    const bookings = await bookingsCollection.find(query).toArray();
+    return bookings;
   }
-  return booking;
-};
 
-export const insertRoom = async (room: Room) => {
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db("HotelDB");
-  const collection = db.collection("rooms");
-  const result = await collection.insertOne(room);
-  client.close();
-  return result;
-};
+  async retrieveRoom(roomId: string): Promise<Document | null> {
+    const collection = this.client.db(this.dbName).collection("rooms");
+    const room = await collection.findOne({ roomId });
+    return room;
+  }
 
-export const insertBooking = async (booking: Booking) => {
-  const client = new MongoClient(uri);
-  await client.connect();
-  const db = client.db("HotelDB");
-  const collection = db.collection("bookings");
-  const result = await collection.insertOne(booking);
-  client.close();
-  return result;
-};
+  async retrieveBooking(bookingId: string): Promise<Document | null> {
+    const collection = this.client.db(this.dbName).collection("bookings");
+    const booking = await collection.findOne({ bookingId });
+    return booking;
+  }
+
+  async insertRoom(room: Document): Promise<void> {
+    const collection = this.client.db(this.dbName).collection("rooms");
+    await collection.insertOne(room);
+  }
+
+  async insertBooking(booking: Document): Promise<void> {
+    const collection = this.client.db(this.dbName).collection("bookings");
+    await collection.insertOne(booking);
+  }
+
+  async closeConnection(): Promise<void> {
+    if (this.client) {
+      await this.client.close();
+    }
+  }
+}
+
+export default MongoDbClient;

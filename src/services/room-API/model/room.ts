@@ -8,7 +8,7 @@ export interface Room {
 
 export const isValidCreateRoomInput = (data: any) => {
   const schema = Joi.object({
-    roomId: Joi.string().required(),
+    roomId: Joi.string(),
     type: Joi.string().required(),
     price: Joi.number().required(),
   });

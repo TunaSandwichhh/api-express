@@ -8,7 +8,7 @@ export interface Booking {
 
 export const isValidCreateBookingInput = (data: any) => {
   const schema = Joi.object({
-    bookingId: Joi.string().required(),
+    bookingId: Joi.string(),
     date: Joi.date().required(),
     roomId: Joi.string().required(),
   });
