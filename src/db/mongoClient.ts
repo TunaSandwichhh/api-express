@@ -1,5 +1,4 @@
-import { MongoClient, Document } from "mongodb";
-import { Collection } from "mongodb";
+import { MongoClient, Document, Collection } from "mongodb";
 
 class MongoDbClient {
   private readonly uri: string = "your_mongodb_uri";

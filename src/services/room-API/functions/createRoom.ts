@@ -7,13 +7,6 @@ export const createRoom = async (input: any) => {
   try {
     await mongoClient.connectToDb();
 
-    if (!isValidCreateRoomInput(input)) {
-      return {
-        status: 400,
-        body: { error: "Invalid input" },
-      };
-    }
-
     const roomId = input.roomId || ksuid.randomSync().string;
 
     const room: Room = {

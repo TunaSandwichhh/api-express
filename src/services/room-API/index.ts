@@ -1,18 +1,20 @@
-import { createRoom, getRoom } from "./services/room-API/functions";
+import { Router } from "express";
+import { createRoom } from "./functions/createRoom";
+import { getRoom } from "./functions/getRoom";
+import { validateRoom } from "../middleware/validateRoom";
 
-export const handleRequest = async (req: any, res: any) => {
-  const { url, body, query } = req;
+const router = Router();
 
-  switch (url) {
-    case "/rooms":
-      const roomResponse = await createRoom(body);
-      return res.status(roomResponse.status).json(roomResponse.body);
+router.post("/", validateRoom, async (req, res) => {
+  const { body } = req;
+  const roomResponse = await createRoom(body);
+  return res.status(roomResponse.status).json(roomResponse.body);
+});
 
-    case "/rooms/{id}":
-      const room = await getRoom(query.roomId);
-      return res.status(room.status).json(room.body);
+router.get("/:id", async (req, res) => {
+  const roomId = req.params.id;
+  const room = await getRoom(roomId);
+  return res.status(room.status).json(room.body);
+});
 
-    default:
-      return res.status(404).json({ message: "Endpoint not found" });
-  }
-};
+export default router;

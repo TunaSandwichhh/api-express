@@ -1,4 +1,4 @@
-import MongoDbClient from "../../db/mongoClient";
+import MongoDbClient from "../../../db/mongoClient";
 
 export const getRoom = async (roomId: string) => {
   const dbClient = new MongoDbClient();

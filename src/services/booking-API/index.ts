@@ -1,18 +1,20 @@
-import { createBooking, getBooking } from "./services/booking-API/functions";
+import { Router } from "express";
+import { createBooking } from "./functions/createBooking";
+import { getBooking } from "./functions/getBooking";
+import { validateBooking } from "../middleware/validateBooking";
 
-export const handleRequest = async (req: any, res: any) => {
-  const { url, body, query } = req;
+const router = Router();
 
-  switch (url) {
-    case "/bookings":
-      const bookingResponse = await createBooking(body);
-      return res.status(bookingResponse.status).json(bookingResponse.body);
+router.post("/", validateBooking, async (req, res) => {
+  const { body } = req;
+  const bookingResponse = await createBooking(body);
+  return res.status(bookingResponse.status).json(bookingResponse.body);
+});
 
-    case "/bookings/{id}":
-      const booking = await getBooking(query.bookingId);
-      return res.status(booking.status).json(booking.body);
+router.get("/:id", async (req, res) => {
+  const bookingId = req.params.id;
+  const booking = await getBooking(bookingId);
+  return res.status(booking.status).json(booking.body);
+});
 
-    default:
-      return res.status(404).json({ message: "Endpoint not found" });
-  }
-};
+export default router;

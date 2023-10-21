@@ -1,18 +1,11 @@
 import MongoDbClient from "../../../db/mongoClient";
-import { Booking, isValidCreateBookingInput } from "../../../models/booking";
+import { Booking, isValidCreateBookingInput } from "../model/booking";
 import ksuid from "ksuid";
 
 export const createBooking = async (input: any) => {
   const mongoClient = new MongoDbClient();
   try {
     await mongoClient.connectToDb();
-
-    if (!isValidCreateBookingInput(input)) {
-      return {
-        status: 400,
-        body: { error: "Invalid input" },
-      };
-    }
 
     const existingBookings = await mongoClient.retrieveBookingsByRoomAndDate(
       input.roomId,
