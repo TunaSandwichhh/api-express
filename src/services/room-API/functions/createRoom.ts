@@ -1,5 +1,5 @@
 import MongoDbClient from "../../../db/mongoClient";
-import { Room, isValidCreateRoomInput } from "../model/room";
+import { Room } from "../model/room";
 import ksuid from "ksuid";
 
 export const createRoom = async (input: any) => {

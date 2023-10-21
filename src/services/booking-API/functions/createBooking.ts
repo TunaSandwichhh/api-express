@@ -1,5 +1,5 @@
 import MongoDbClient from "../../../db/mongoClient";
-import { Booking, isValidCreateBookingInput } from "../model/booking";
+import { Booking } from "../model/booking";
 import ksuid from "ksuid";
 
 export const createBooking = async (input: any) => {
