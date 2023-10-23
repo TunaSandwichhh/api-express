@@ -22,7 +22,7 @@ const createBooking = (input) => __awaiter(void 0, void 0, void 0, function* () 
         const existingBookings = yield mongoClient.retrieveBookingsByRoomAndDate(input.roomId, input.date);
         if (existingBookings.length > 0) {
             return {
-                status: 400,
+                status: 409,
                 body: {
                     error: "Booking conflict: The room is already booked for this date",
                 },
