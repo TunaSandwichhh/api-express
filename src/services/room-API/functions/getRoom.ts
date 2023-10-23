@@ -1,11 +1,12 @@
 import MongoDbClient from "../../../db/mongoClient";
+import { Room } from "../model/room";
 
 export const getRoom = async (roomId: string) => {
   const dbClient = new MongoDbClient();
 
   try {
     await dbClient.connectToDb();
-    const room = await dbClient.retrieveRoom(roomId);
+    const room = (await dbClient.retrieveRoom(roomId)) as Room;
 
     if (!room) {
       return {
@@ -16,7 +17,7 @@ export const getRoom = async (roomId: string) => {
 
     return {
       status: 200,
-      body: { room },
+      body: { ...room },
     };
   } catch (error) {
     return {

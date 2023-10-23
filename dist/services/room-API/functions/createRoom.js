@@ -30,7 +30,7 @@ const createRoom = (input) => __awaiter(void 0, void 0, void 0, function* () {
             status: 200,
             body: {
                 message: "Room successfully created",
-                id: room.roomId,
+                roomId: room.roomId,
             },
         };
     }

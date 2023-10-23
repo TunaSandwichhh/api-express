@@ -36,14 +36,14 @@ class MongoDbClient {
     retrieveRoom(roomId) {
         return __awaiter(this, void 0, void 0, function* () {
             const collection = this.client.db(this.dbName).collection("rooms");
-            const room = yield collection.findOne({ roomId });
+            const room = yield collection.findOne({ roomId }, { projection: { _id: 0 } });
             return room;
         });
     }
     retrieveBooking(bookingId) {
         return __awaiter(this, void 0, void 0, function* () {
             const collection = this.client.db(this.dbName).collection("bookings");
-            const booking = yield collection.findOne({ bookingId });
+            const booking = yield collection.findOne({ bookingId }, { projection: { _id: 0 } });
             return booking;
         });
     }

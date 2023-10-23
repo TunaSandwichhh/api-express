@@ -28,13 +28,19 @@ class MongoDbClient {
 
   async retrieveRoom(roomId: string): Promise<Document | null> {
     const collection = this.client.db(this.dbName).collection("rooms");
-    const room = await collection.findOne({ roomId });
+    const room = await collection.findOne(
+      { roomId },
+      { projection: { _id: 0 } }
+    );
     return room;
   }
 
   async retrieveBooking(bookingId: string): Promise<Document | null> {
     const collection = this.client.db(this.dbName).collection("bookings");
-    const booking = await collection.findOne({ bookingId });
+    const booking = await collection.findOne(
+      { bookingId },
+      { projection: { _id: 0 } }
+    );
     return booking;
   }
 

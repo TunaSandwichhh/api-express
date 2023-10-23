@@ -18,7 +18,7 @@ const getRoom = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
     const dbClient = new mongoClient_1.default();
     try {
         yield dbClient.connectToDb();
-        const room = yield dbClient.retrieveRoom(roomId);
+        const room = (yield dbClient.retrieveRoom(roomId));
         if (!room) {
             return {
                 status: 404,
@@ -27,7 +27,7 @@ const getRoom = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
         }
         return {
             status: 200,
-            body: { room },
+            body: Object.assign({}, room),
         };
     }
     catch (error) {

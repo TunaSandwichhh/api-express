@@ -12,7 +12,7 @@ export const createRoom = async (input: any) => {
     const room: Room = {
       roomId,
       type: input.type,
-      price: input.price,
+      price: input.price as number,
     };
 
     await mongoClient.insertRoom(room);
@@ -21,7 +21,7 @@ export const createRoom = async (input: any) => {
       status: 200,
       body: {
         message: "Room successfully created",
-        id: room.roomId,
+        roomId: room.roomId,
       },
     };
   } catch (error) {

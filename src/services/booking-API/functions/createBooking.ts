@@ -33,7 +33,10 @@ export const createBooking = async (input: any) => {
 
     return {
       status: 200,
-      body: { message: "Booking successfully created" },
+      body: {
+        message: "Booking successfully created",
+        bookingId: booking.bookingId,
+      },
     };
   } catch (error) {
     return {
